@@ -1,0 +1,51 @@
+{% extends 'admin/public/base.html' %}
+
+{% block con-header %}
+<div class="container-fluid am-cf">
+	<div class="row">
+	    <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+	        <div class="page-header-heading"><span class="am-icon-pencil page-header-heading-icon"></span> 商品分类修改 <small>Mr.Meng <span class="am-icon-sun-o"></span></small></div>
+	    </div>
+
+	</div>
+
+</div>
+{% endblock %}
+{% block con-body %}
+<div class="row-content am-cf">
+	<form class="am-form tpl-form-line-form" action="{% url 'admin_types_update' %}" method="post" enctype="multipart/form-data" >
+
+	{% csrf_token %}
+        <div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label">  所属分类 <span class="tpl-form-line-small-title">classify</span></label>
+            <select name = "pid" data-am-selected="{btnSize: 'sm'}">
+                {% if info.pid == 0%}
+                        <option value="0">顶级分类</option>
+                {% endif %}
+
+                {% for i in tlist %}
+                    {% if info.pid == i.id %}
+                        <option selected value="{{ i.id }}">{{ i.name }}</option>
+                    {% else %}
+                        <option disabled value="{{ i.id }}">{{ i.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+
+    	<div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label">  商品分类名称 <span class="tpl-form-line-small-title">types</span></label>
+            <div class="am-u-sm-9">
+                <input type="text" name="name" value = "{{info.name}}" class="tpl-form-input" placeholder="商品分类名称">
+            </div>
+        </div>
+        <input type="hidden" name="tid" value="{{ info.id }}">
+        <div class="am-form-group">
+
+            <div class="am-u-sm-9 am-u-sm-push-3">
+                <button class="am-btn am-btn-primary tpl-btn-bg-color-success ">修改</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

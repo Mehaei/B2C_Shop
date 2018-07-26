@@ -1,0 +1,107 @@
+{% extends 'admin/public/base.html' %}
+
+{% block con-header %}
+<div class="container-fluid am-cf">
+	<div class="row">
+	    <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+	        <div class="page-header-heading"><span class="am-icon-user-plus page-header-heading-icon"></span> 管理组添加 <small>Mr.Meng <span class="am-icon-sun-o"></span></small></div>
+	    </div>
+
+	</div>
+
+</div>
+{% endblock %}
+{% block con-body %}
+<div class="row-content am-cf">
+	<form class="am-form tpl-form-line-form" action="{% url 'auth_group_add' %}" method="post" enctype="multipart/form-data" >
+	{% csrf_token %}
+
+    	<div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label">  组名 <span class="tpl-form-line-small-title">Groupname</span></label>
+            <div class="am-u-sm-9">
+                <input type="text" name="name" class="tpl-form-input" placeholder="请输入组名">
+            </div>
+        </div>
+
+
+        
+        <div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label">
+                权限
+            </label>
+            <div class="am-u-sm-9">
+               <div style="float: left;text-align: center;">
+                   <p>可用权限</p>
+                   <select id="select1" multiple="multiple" style="width:300px;height:200px; float:left; border:1px solid rgba(255, 255, 255, 0.2); padding:4px; ">
+                        {% for i in perms %}
+                        <option value="{{ i.id }}">{{ i }}</option>
+                        {% endfor %}
+                   </select>
+                   <p><button id="add_all" class="am-btn am-btn-warning am-btn-xs" type="button">全选&nbsp;&gt;</button></p>
+               </div>
+
+               <div style="float: left;width: 50px;height:200px;">
+                   <ul style="margin-top: 100px;text-align: center;">
+                       <li><button id="add" class="am-btn am-btn-warning am-btn-xs" type="button">&gt;</button></li>
+                       <br>
+                       <li><button id="remove" class="am-btn am-btn-warning am-btn-xs" type="button">&lt;</button></li>
+                   </ul>
+               </div>
+
+               <div style="float: left;text-align: center;">
+                   <p>已选中的权限</p>
+                   <select name="perms" id="select2" multiple="multiple" style="width:300px;height:200px; float:left; border:1px solid rgba(255, 255, 255, 0.2); padding:4px; ">
+                    
+                   </select>
+                   <p><button id="remove_all" class="am-btn am-btn-warning am-btn-xs" type="button">全部移除</button></p>
+               </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+                <button class="am-btn am-btn-primary tpl-btn-bg-color-success ">添加</button>
+            </div>
+        </div>
+    </form>
+
+<div>
+<script type="text/javascript">
+    $('#add').click(function(){
+        $('#select1 option:selected').appendTo('#select2');
+    })
+    $('#remove').click(function(){
+        $('#select2 option:selected').appendTo('#select1');
+    })
+    $('#add_all').click(function(){
+        $('#select1 option').appendTo('#select2');
+    })
+    $('#remove_all').click(function(){
+        $('#select2 option').appendTo('#select1');
+    })
+    $('#select1').dblclick(function(){
+        $('option:selected',this).appendTo('#select2');
+    })
+    $('#select2').dblclick(function(){
+        $('option:selected',this).appendTo('#select1');
+    })
+
+    $('#myform').submit(function(){
+
+        // $('#select2 option').each(function(){
+        //     this.selected = true
+        // })
+
+         // $('#select2 option').attr('selected',true) //X
+         $('#select2 option').prop('selected',true) 
+
+        // return false;
+    })
+    
+</script>
+
+
+{% endblock %}

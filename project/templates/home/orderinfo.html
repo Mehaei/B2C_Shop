@@ -1,0 +1,188 @@
+{% extends 'home/public/base.html'%}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/home/public/css/order.css">
+<link rel="stylesheet" type="text/css" href="/static/home/public/css/order-app.css">
+{% endblock %}
+
+
+{% block context %}
+<div class="mainbody order">
+    <div class="container">
+        <!-- 面包屑导航 -->
+        <div class="crumbs col-xs-12 col-sm-12">
+            <ol class="breadcrumb">
+                <li class="hidden-xs hidden-sm">
+                    <a href="index.html">
+                        首页
+                    </a>
+                </li>
+                <li class="hidden-xs hidden-sm">
+                    <a href="member.html">
+                        我的商城
+                    </a>
+                </li>
+                <li class="active">
+                <a href="{% url 'myorder' %}">
+                    我的订单
+                    </a>
+                </li>
+                <li class="active">
+                <a class="active" href="javascript:void(0)">
+                    订单详情
+                    </a>
+                </li>
+            </ol>
+        </div>
+  <a href="{% url 'myorder' %}" style="margin-left:20px" type="button" class="btn btn-primary btn-xs">&lt;返回列表页</a>
+        <!-- 面包屑导航 E-->
+
+		<center><h1>收件人信息</h1></center>
+        <div class="main clearfix">
+             <!-- 右侧内容展示 -->
+        	<div  class="right-content f-fr col-md-12 col-xs-12 col-sm-12">
+
+               	<div class="order-main"> 
+                    <div class="list-head hidden-xs hidden-sm">
+                        <ul class="clearfix">
+                            <li class="w125">
+                               收件人
+                            </li>
+                            <li style="width:400px;margin-bottom:20px">
+                                收件地址
+                            </li>
+
+                            <li class="w125">
+                                收货电话
+                            </li>
+                            <li class="w125">
+                                订单总价
+                            </li>
+                             <li class="w125">
+                                状态
+                            </li>
+                        </ul>
+                        {% for i in order %}
+                        <ul class="clearfix" style="height:60px;border-top:2px solid #369">
+                            <li class="w125">
+                               {{ i.address.uname }}
+                            </li>
+                            
+
+                            <li class="w125"  style="width:400px;margin-bottom:20px">
+                               {{ i.address.uaddr }}
+                            </li>
+                            <li class="w125">
+                              {{ i.address.uphone }}
+                            </li>
+                            {% for ii in i.orderinfo_set.all %}
+                            <li class="w125">
+                        
+                            {% load pagetag %}
+
+                            ￥{% ride ii.price ii.num %}
+                            </li>
+                            {% endfor %}
+
+
+                            {% if i.stauts == 1 %}
+                                <li class="w125">未付款</li>
+                            {% elif i.stauts == 2 %}
+                                <li class="w125">待发货</li>
+                            {% elif i.stauts == 3 %}
+                                <li class="w125">待收货</li>
+                            {% elif i.stauts == 4 %}
+                                <li class="w125">待评价</li>
+                            {% elif i.stauts == 5 %}
+                                <li class="w125">已取消</li>
+                            {% endif%}
+                         </ul>
+                        {% endfor %}
+               
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <center><h1>商品信息</h1></center>
+        <div class="main clearfix">
+             <!-- 右侧内容展示 -->
+        	<div  class="right-content f-fr col-md-12 col-xs-12 col-sm-12">
+
+               	<div class="order-main"> 
+                    <div class="list-head hidden-xs hidden-sm">
+                        <ul class="clearfix">
+                            <li class="w125">
+                               订单号
+                            </li>
+                            <li style="width:400px;margin-bottom:20px">
+                                商品
+                            </li>
+                            <li class="w125">
+                                单价
+                            </li>
+                            <li class="w125">
+                                数量
+                            </li>
+                            <li class="w125">
+                                订单总价
+                            </li>
+                             <li class="w125">
+                                状态
+                            </li>
+                        </ul>
+                        {% for i in order %}
+                        {% for ii in i.orderinfo_set.all %}
+                        <ul class="clearfix" style="height:100px;border-top:2px solid #369">
+                            <li class="w125">
+                               {{ i.id }}
+                            </li>
+                            
+                            <li style="width:400px;text-align:left">
+                            <img style="width:50px" src="{{ ii.gid.pic }}">
+                                {{ ii.gid.title }}
+                            </li>
+                            <li class="w125">
+                                ￥{{ ii.price }}
+                            </li>
+                            <li class="w125">
+                                {{ ii.num }}
+                            </li>
+                            <li class="w125">
+                        
+                            {% load pagetag %}
+
+                            ￥{% ride ii.price ii.num %}
+                            </li>
+                            
+                             <li class="w125">
+                            
+                            
+                            {% if i.stauts == 1 %}
+                                <li class="w125">未付款</li>
+                            {% elif i.stauts == 2 %}
+                                <li class="w125">待发货</li>
+                            {% elif i.stauts == 3 %}
+                                <li class="w125">待收货</li>
+                            {% elif i.stauts == 4 %}
+                                <li class="w125">待评价</li>
+                            {% elif i.stauts == 5 %}
+                                <li class="w125">已取消</li>
+                            {% endif%}
+            
+                            
+                        </ul>
+                        {% endfor %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

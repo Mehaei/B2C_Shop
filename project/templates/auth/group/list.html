@@ -1,0 +1,97 @@
+{% extends 'admin/public/base.html' %}
+
+{% block con-header %}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading"><span class="am-icon-group page-header-heading-icon"></span>管理组列表 <small>Mr.Meng <span class="am-icon-sun-o"></span></small></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block con-body %}
+<div class="row-content am-cf">
+<div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+    <div class="widget am-cf">
+        <div class="widget-head am-cf">
+           
+
+
+        </div>
+        <div class="widget-body  am-fr">
+
+            <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                <div class="am-form-group">
+                    <div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <a href="{% url 'auth_group_add' %}" type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="am-u-sm-12">
+                <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black ">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>组名</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                    	{% for i in alist %}
+                        <tr class="gradeX">
+                            <td class="am-text-middle">{{ i.id }}</td>
+                            <td class="am-text-middle" style="width:150px">{{ i.name }}</td>
+            
+
+
+                            <td class="am-text-middle">
+                                <div class="tpl-table-black-operation">
+                                    <a href="{% url 'auth_group_edit' i.id %}" class="tpl-table-black-operation-del">
+                                        <i class="am-icon-trash"></i> 编辑
+                                    </a>
+                                    <a href="#" class="tpl-table-black-operation-del">
+                                        <i class="am-icon-trash"></i> 删除
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <!-- more data -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="am-u-lg-12 am-cf">
+
+                <div class="am-fr">
+                    <ul class="am-pagination tpl-pagination">
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+	// alert($)
+	// 绑定下拉框改变事件
+	$('.user_status_save').change(function(){
+		// 获取当前点击的数据ｉｄ
+		s = $(this).val()
+		// 获取当前点击数据的状态
+		id = $(this).attr('uid')
+		// 发送ａｊａｘ请求
+		$.get('{% url "admin_status" %}',{uid:id,status:s})
+	})
+
+</script>
+{% endblock %}

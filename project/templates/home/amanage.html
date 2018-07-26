@@ -1,0 +1,241 @@
+{% extends 'home/public/base.html'%}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/home/public/css/order.css">
+<link rel="stylesheet" type="text/css" href="/static/home/public/css/order-app.css">
+{% endblock %}
+
+
+{% block context %}
+<div class="mainbody order">
+    <div class="container">
+        <!-- 面包屑导航 -->
+        <div class="crumbs col-xs-12 col-sm-12">
+            <ol class="breadcrumb">
+                <li class="hidden-xs hidden-sm">
+                    <a href="index.html">
+                        首页
+                    </a>
+                </li>
+                <li class="hidden-xs hidden-sm">
+                    <a href="member.html">
+                        我的商城
+                    </a>
+                </li>
+                <li class="active">
+                <a href="{% url 'myorder' %}">
+                    我的订单
+                    </a>
+                </li>
+                <li class="active">
+                <a class="active" href="javascript:void(0)">
+                    订单详情
+                    </a>
+                </li>
+            </ol>
+        </div>
+  <a href="{% url 'myorder' %}" style="margin-left:20px" type="button" class="btn btn-primary btn-xs">&lt;返回列表页</a>
+        <!-- 面包屑导航 E-->
+
+		<center><h1>地址管理</h1></center>
+        <div class="main clearfix">
+             <!-- 右侧内容展示 -->
+        	<div  class="right-content f-fr col-md-12 col-xs-12 col-sm-12">
+
+               	<div class="order-main"> 
+                    <div class="list-head hidden-xs hidden-sm" >
+                        <ul class="clearfix">
+                            <li class="w125">
+                               收件人
+                            </li>
+                            <li style="width:400px;margin-bottom:20px">
+                                收件地址
+                            </li>
+                            <li class="w125">
+                                收货电话
+                            </li>
+                            <li style="width:300px">
+                               　操作
+                            </li>
+                            <li >
+                               　是否默认
+                            </li>
+                        </ul>
+                        {% for i in order %}
+
+                        <ul class="clearfix ull" style="height:60px;border-top:2px solid #369" gid="{{ i.id }}">
+                        {% if i.status == 1 %}
+                            <div style="margin-left:30px" class="test glyphicon glyphicon-ok"></div>
+                        {% else %}
+                            <div style="margin-left:30px;display:none" class="test glyphicon glyphicon-ok"></div>
+                        {% endif %}
+                            <li class="w125">
+                               {{ i.uname }}
+                            </li>
+                            <li class="w125"  style="width:400px;margin-bottom:20px">
+                            {{ i.uaddr }}
+                            </li>
+                            <li class="w125">
+                            {{ i.uphone }}
+                            </li>
+                            <li  style="width:300px" class="buy" did = "{{ i.id }}" uname = "{{ i.uname }}" uaddr = "{{ i.uaddr }}" uphone="{{ i.uphone }}">
+
+                                <a  data-toggle="modal" data-target="#myModal">修改地址</a>
+                                
+                                <a href="{% url 'address_del' i.id %}">删除地址</a>
+  
+                          </li>
+<!-- 修改地址信息 -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{% url 'address_edit' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" >
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <center>
+                    <h3 class="modal-title" id="myModalLabel">
+                        修改地址信息
+                    </h3>
+                    </center>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">
+                            收货人
+                        </label>
+                        <input type="text" name="uname" class="form-control uname" 　value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">
+                            收货电话
+                        </label>
+                        <input type="text" name="uphone" class="form-control uphone"  value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">
+                            收货地址
+                        </label>
+                        <input type="text" name="uaddr" class="form-control uaddr"  value="">
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="status" value="1" type="checkbox">
+                            是否设为默认地址
+                        </label>
+                    </div>
+                </div>
+                <input type="hidden" name="tid" class="form-control did" 　value="">
+                <center>
+            <button class="btn btn-primary btn-lg active">确认修改</button>
+            </center>
+        </form>
+        </div>
+    </div>
+</div>
+
+                         </ul>
+                        {% endfor %}
+<!-- 添加用户地址 -->
+<div class="modal fade" id="myModals" tabindex="-1" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{% url 'address_add' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" >
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <center>
+                    <h3 class="modal-title" id="myModalLabel">
+                        添加地址信息
+                    </h3>
+                    </center>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">
+                            收货人
+                        </label>
+                        <input type="text" name="uname" class="form-control" placeholder="收货人"　>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">
+                            收货电话
+                        </label>
+                        <input type="text" name="uphone" class="form-control" placeholder="收货电话">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">
+                            收货地址
+                        </label>
+                        <input type="text" name="uaddr" class="form-control" placeholder="收货地址">
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input name="status" value="1" type="checkbox">
+                            是否设为默认地址
+                        </label>
+                    </div>
+                </div>
+                <center>
+            <button class="btn btn-primary btn-lg active">确认添加</button>
+            </center>
+        </form>
+        </div>
+    </div>
+</div>
+
+                    </div>
+                    <center>
+                        <a type="button" data-toggle="modal" data-target="#myModals" class="btn btn-lg btn-primary" >添加收货信息</a></center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+        // 处理bootstrap表单异常　不用管
+    $('#myModal,#myModals').modal({
+        backdrop: false,//点击空白处不关闭对话框
+        keyboard: false,//键盘关闭对话框
+        show:false//弹出对话框
+        });
+    // 设置修改地址的值
+    $('.buy a:first-child').click(function(){
+        // alert($)
+    var thiss = $(this)
+    $('.uname').val(thiss.parent().attr('uname'))
+    $('.uphone').val(thiss.parent().attr('uphone'))
+    $('.uaddr').val(thiss.parent().attr('uaddr'))
+    $('.did').val(thiss.parent().attr('did'))
+})
+// 给当前点击的ＵＬ绑定单击事件　点击设置为默认地址
+$('.right-content').on('click','.ull',function(){
+    var gid = $(this).attr('gid') 
+    $.get("{% url 'order_status_edit' %}",{gid:gid})
+    $(this).find('.test').css('display','inline-block')
+    $(this).siblings().find('.test').css('display','none')
+
+})
+</script>
+{% endblock %}
+
+{% block js %}
+  <script type="text/javascript">
+  //回顶部
+   backTop();
+  //顶部导航鼠标经过出现内容
+   topNav();
+  //登录图片鼠标经过
+   topLogin();
+   //
+   leftNav();
+  </script>
+{% endblock %}

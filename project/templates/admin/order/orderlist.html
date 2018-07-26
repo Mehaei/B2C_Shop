@@ -1,0 +1,137 @@
+{% extends 'admin/public/base.html' %}
+
+{% block con-header %}
+<div class="container-fluid am-cf">
+    <div class="row">
+        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+            <div class="page-header-heading"><span class="am-icon-home page-header-heading-icon"></span>订单管理页<small>Mr.Meng <span class="am-icon-sun-o"></span></small></div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block con-body %}
+<div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+    <div class="widget am-cf">
+        <div class="widget-head am-cf">
+
+            <div class="widget-function am-fr">
+                <a href="javascript:;" class="am-icon-cog">
+                </a>
+            </div>
+        </div>
+<!-- 搜索框 -->
+            <form>
+
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                <select name = "types" data-am-selected="{btnSize: 'sm'}" style="display: none;">
+                        <option {% if request.GET.types == '1' %} selected {% endif %} value="1">未付款</option>
+                        <option {% if request.GET.types == '2' %} selected {% endif %} value="2">待发货</option>
+		                <option {% if request.GET.types == '3' %} selected {% endif %} value="3">待收货</option>
+		                <option {% if request.GET.types == '4' %} selected {% endif %} value="4">待评价</option>
+		                <option {% if request.GET.types == '5' %} selected {% endif %} value="5">已取消</option>
+					</select>
+                    
+                    <span class="am-input-group-btn">
+						<button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" ></button>
+					</span>
+                </div>
+            </div>
+            </form>
+
+
+
+        <div class="widget-body  widget-body-lg am-fr">
+            <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black "
+            id="example-r">
+                <thead>
+                    <tr>
+                        <th>
+                            订单号
+                        </th>
+                        <th>
+                            订单用户
+                        </th>
+                        <th>
+                            总价
+                        </th>
+                        <th>
+                            总数
+                        </th>
+                        <th>
+                            订单状态
+                        </th>
+                        <th>
+                            下单时间
+                        </th>
+                        <th>
+                            操作
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in orderlist %}
+                    <tr class="gradeX">
+                        <td>
+                           {{ i.uid.id }}
+                        </td>
+                        <td>
+                            {{ i.address.uname }}
+                        </td>
+                        <td>
+                            {{ i.totalprice }}
+                        </td>
+                        <td>
+                            {{ i.totalnum }}
+                        </td>
+                        <td>
+						<select class="admin_order_status" oid="{{ i.id }}" style="color:#fff;background: #4B5357" >
+                        	<option value="1" {% if i.stauts == 1 %} selected {% endif %}>未付款</option>
+                        	<option value="2" {% if i.stauts == 2 %} selected {% endif %}>待发货</option>
+                        	<option value="3" {% if i.stauts == 3 %} selected {% endif %}>待收货</option>
+                        	<option value="4" {% if i.stauts == 4 %} selected {% endif %}>待评价</option>
+                        	<option value="5" {% if i.stauts == 5 %} selected {% endif %}>已取消</option>                        	
+                    	</select>
+
+                        </td>
+                        <td>
+                            {{ i.addtime|date:'Y-m-d H:i:s' }}
+                        </td> 
+                        <td>
+                            <div class="tpl-table-black-operation">
+                                <a href="{% url 'admin_order_info' i.id %}" class="tpl-table-black-operation-del">
+                                    <i class="am-icon-trash">
+                                    </i>
+                                    查看详情
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                    <!-- more data -->
+     
+                </tbody>
+            </table>
+            <div class="am-fr">
+                    <ul class="am-pagination tpl-pagination">
+
+                        {% load pagetag %}
+
+                        {% showpage orderlist.paginator.num_pages request %}
+                    </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+	$('.admin_order_status').change(function(){
+		
+		var oid = $(this).attr('oid')
+		var vall = $(this).val()
+		$.get("{% url 'admin_order_status' %}",{oid:oid,vall:vall})
+	})
+</script>
+{% endblock %}

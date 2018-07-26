@@ -1,0 +1,47 @@
+{% extends 'home/register.html' %}
+
+{% block title%}
+	<title> Flyme账号找回</title>
+{% endblock %}
+
+{% block context %}
+<div id="content" class="content">
+    <div class="container-fluid">
+        <div class="banner-box hidden-xs hidden-sm">
+            <div class="container">
+
+                <form id="mainForm" action="{% url 'forget_edit' %}" class="main-form" method="post">
+                    {% csrf_token %}
+
+                    <div class="tab-title">
+                        <a class="linkABlue" id="toTelRegister" href="javascript:void(0)">找回 Flyme 账号</a>
+                    </div>
+                    <div class="tip-box visiblility-hidden">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="glyphicon glyphicon-exclamation-sign"></i>
+                            <span class="tip-font"></span>
+                            <span aria-hidden="true" class="cha">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="normalInput cycode-box fieldInput" id="cycode-box" style="margin-top:-30px" >
+                        <div class="cycode-selectbox">
+                            <input type="email" class="ipt-account inp-focus" name="email" id="account" maxlength="50" placeholder="请输入已注册的邮箱地址" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <!-- <a id="nextStep" class="fullBtnBlue register-btn" data-step="1">立即注册</a> -->
+                    <button style="width:300px;height:50px;background:#39f;color:#fff;font-size:18px;">开始申诉</button>
+
+
+                </form>
+
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<!-- 主内容区域  E-->
+{% endblock %}

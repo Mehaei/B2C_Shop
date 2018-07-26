@@ -1,0 +1,57 @@
+{% extends 'home/register.html' %}
+
+{% block title%}
+	<title> 设置新密码</title>
+{% endblock %}
+
+{% block context %}
+  <!-- 主内容区域 -->
+  <div id="content" class="content">  
+    <div class="container-fluid"> 
+		<div class="banner-box hidden-xs hidden-sm">
+			<div class="container"> 
+				
+        <form id="mainForm" action="{% url 'forgetnew_insert' %}" class="main-form" method="post">
+        {% csrf_token %}
+
+					<div class="tab-title">
+						<a class="linkABlue" id="toTelRegister" href="javascript:void(0)">设置 Flyme 账号新密码</a>
+					</div>
+					<div class="tip-box visiblility-hidden">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<i class="glyphicon glyphicon-exclamation-sign"></i>
+							<span class="tip-font"></span>
+							<span aria-hidden="true" class="cha">&times;</span>
+						</button>
+					</div>
+
+		<div class="normalInput cycode-box fieldInput" id="cycode-box" style="margin-top:-30px">
+			<div class="cycode-selectbox">
+				<input type="text" class="ipt-account inp-focus" name="username" id="account" maxlength="50" value="{{ db.username }}" disabled autocomplete="off">
+			</div>
+		</div>
+
+          <div class="normalInput cycode-box fieldInput" id="cycode-box">
+            <div class="cycode-selectbox">
+              <input type="email" class="ipt-account inp-focus" name="email" id="account" maxlength="50" value="{{ db.email }}" disabled autocomplete="off">
+            </div>
+          </div>
+          <input type="hidden" name="uid" value="{{ db.id }}" >
+		<div class="normalInput fieldInput passwd-box" style="margin-bottom:40px">
+			<input class="inp-focus" name="password" id="password" maxlength="16" placeholder="请输入新密码" autocomplete="off" type="password">
+	   </div>
+
+					<!-- <a id="nextStep" class="fullBtnBlue register-btn" data-step="1">立即注册</a> -->
+          <button style="width:300px;height:50px;background:#39f;color:#fff;font-size:18px;">确定修改</button>
+
+
+				</form>
+
+
+			</div>
+		</div>
+      
+    </div>
+  </div>
+  <!-- 主内容区域  E-->
+{% endblock %}

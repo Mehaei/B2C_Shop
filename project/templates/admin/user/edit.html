@@ -1,0 +1,98 @@
+{% extends 'admin/public/base.html' %}
+
+{% block con-header %}
+<div class="container-fluid am-cf">
+	<div class="row">
+	    <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+	        <div class="page-header-heading"><span class="am-icon-pencil page-header-heading-icon"></span> 会员添加 <small>Mr.Meng <span class="am-icon-sun-o"></span></small></div>
+	    </div>
+
+	</div>
+
+</div>
+{% endblock %}
+{% block con-body %}
+<div class="row-content am-cf">
+	<form class="am-form tpl-form-line-form" action="{% url 'admin_user_update' %}" method="post" enctype="multipart/form-data" >
+	{% csrf_token %}
+
+    	<div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label">  用户名 <span class="tpl-form-line-small-title">Username</span></label>
+            <div class="am-u-sm-9">
+                <input type="text" name="username" class="tpl-form-input" id="user-name" placeholder="请输入用户名" value="{{ info.username }}">
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label">  邮箱 <span class="tpl-form-line-small-title">email</span></label>
+            <div class="am-u-sm-9">
+                <input type="email" name="email" class="tpl-form-input" id="user-name" placeholder="请输入邮箱" value="{{ info.email }}">
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label">  手机号 <span class="tpl-form-line-small-title">phone</span></label>
+            <div class="am-u-sm-9">
+                <input type="text" name="phone" class="tpl-form-input" id="user-name" placeholder="手机号" value="{{ info.phone }}">
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label">  年龄 <span class="tpl-form-line-small-title">age</span></label>
+            <div class="am-u-sm-9">
+                <input type="text" name="age" class="tpl-form-input" id="user-name" placeholder="年龄" value="{{ info.age }}">
+            </div>
+        </div>
+
+        <div class="am-form-group">
+            <label for="user-name" class="am-u-sm-3 am-form-label">  性别<span class="tpl-form-line-small-title">sex</span> </label>
+            {% if info.sex == "男" %}
+            <div class="am-u-sm-9">
+				<label class="am-radio-inline"><input type="radio" value="男" name="sex" checked>男</label>
+				<label class="am-radio-inline"><input type="radio" value="女" name="sex">女</label>
+            </div>
+            {% else %}
+            <div class="am-u-sm-9">
+                <label class="am-radio-inline"><input type="radio" value="男" name="sex">男</label>
+                <label class="am-radio-inline"><input type="radio" value="女" name="sex" checked>女</label>
+            </div>
+            {% endif %}
+        </div>
+
+
+        <div class="am-form-group">
+            <label for="user-weibo" class="am-u-sm-3 am-form-label">选择头像<span class="tpl-form-line-small-title">Images</span></label>
+            <div class="am-u-sm-9">
+                <div class="am-form-group am-form-file">
+<!--                     <div class="tpl-form-file-img">
+                        <img src="{{ info.picurl }}" class="imgg" alt="">
+                    </div> -->
+                    <div class="tpl-user-panel-profile-picture">
+                        <img src="{{ info.picurl }}" class="imgg" width = '100px' alt="">
+                    </div>
+                    <button type="button" class="am-btn am-btn-danger am-btn-sm">
+						<i class="am-icon-cloud-upload"></i>上传头像</button>
+                    <input id="doc-form-file" type="file" name="pic" multiple="">
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="uid" value="{{ info.id }}">
+        <div class="am-form-group">
+            <div class="am-u-sm-9 am-u-sm-push-3">
+                <button class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $('#doc-form-file').change(function(){
+        // var a = $('#doc-form-file').val()
+        // // var b = a.split('')
+        // var ffile= getFileName(a)
+        // alert($)
+        var a = $('.imgg').attr('src',URL.createObjectURL($(this)[0].files[0]));
+        console.log(a)
+    })
+</script>
+{% endblock %}

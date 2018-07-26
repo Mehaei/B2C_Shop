@@ -1,0 +1,347 @@
+{% extends 'home/public/base.html'%}
+
+{% block css %}
+	<link rel="stylesheet" type="text/css" href="/static/home/public/css/order.css">
+	<link rel="stylesheet" type="text/css" href="/static/home/public/css/order-app.css">
+{% endblock %}
+
+
+{% block context %}
+<div class="mainbody order">
+    <div class="container">
+        <!-- 面包屑导航 -->
+        <div class="crumbs col-xs-12 col-sm-12">
+            <ol class="breadcrumb">
+                <li class="hidden-xs hidden-sm">
+                    <a href="index.html">
+                        首页
+                    </a>
+                </li>
+                <li class="hidden-xs hidden-sm">
+                    <a href="member.html">
+                        我的商城
+                    </a>
+                </li>
+                <li class="active">
+                    我的订单
+                </li>
+            </ol>
+        </div>
+        <!-- 面包屑导航 E-->
+        <div class="main clearfix">
+            <!-- 左侧导航 -->
+            <div class="left-nav f-fl col-md-2 hidden-xs hidden-sm">
+                <div class="nav-main">
+                    <a href="javascript:;" class="type-title">
+                        <span class="glyphicon glyphicon-list-alt" aria-hidden="true">
+                        </span>
+                        订单中心
+                    </a>
+                    <a href="order.html" class="ml active">
+                        我的订单
+                    </a>
+                    <a href="#" class="ml ">
+                        我的回购单
+                    </a>
+                    <a href="#" class="ml ">
+                        我的意外保
+                    </a>
+                    <a href="javascript:;" class="type-title">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true">
+                        </span>
+                        个人中心
+                    </a>
+                    <a href="{% url 'address_manage' %}" class="ml ">
+                        地址管理
+                    </a>
+                    <a href="#" class="ml ">
+                        我的收藏
+                    </a>
+                    <a href="#" class="ml ">
+                        消息提醒
+                    </a>
+                    <a href="#" class="ml ">
+                        建议反馈
+                    </a>
+                </div>
+            </div>
+            <!-- 左侧导航 E-->
+            <!-- 右侧内容展示 -->
+            <div  class="right-content f-fr col-md-10 col-xs-12 col-sm-12">
+                <div class="order-main">
+                    <div class="type-tab-btn">
+                        <a href="?status=all" class="allOrder active col-20" data-type="-1">
+                            全部订单
+                        </a>
+                        <i class="line hidden-xs hidden-sm">
+                            |
+                        </i>
+                        <a class="waitPay col-20" href="?status=sone" data-type="0">
+                            待付款
+                            <span class="amount _actAmount">
+                            </span>
+                        </a>
+                        <i class="line hidden-xs hidden-sm">
+                            |
+                        </i>
+                        <a class="waitDeliver col-20" href="?status=stwo" data-type="1">
+                            待发货
+                        </a>
+                        <i class="line hidden-xs hidden-sm">
+                            |
+                        </i>
+                        <a class="hasDeliver col-20" href="?status=stree" data-type="2">
+                            已发货
+                        </a>
+                        <i class="line hidden-xs hidden-sm">
+                            |
+                        </i>
+                        <a class="other col-20" href="?status=sfour" data-type="99">
+                            其他
+                        </a>
+                    </div>
+                    <div class="list-head hidden-xs hidden-sm">
+                        <ul class="clearfix">
+                            <li class="w50">
+                                <select id="checkType" class="check-type">
+                                    <option value="0">
+                                        近三个月的订单
+                                    </option>
+                                    <option value="1">
+                                        全部订单
+                                    </option>
+                                </select>
+                                订单明细
+                            </li>
+                            <li class="w125">
+                                售后
+                            </li>
+                            <li class="w125">
+                                金额
+                            </li>
+                            <li class="w125">
+                                状态
+                            </li>
+                            <li class="w125">
+                                操作
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="tableList" class="type-contain ui-load-container">
+                        <div class="ui-load-content">
+                            <input id="unPayNum" value="0" type="hidden">
+                            <table class="orderItem">
+                                <tbody>
+                                {% for i in order %}
+                                    <tr class="trHead hidden-xs hidden-sm">
+                                        <td colspan="4" class="title clearfix">
+                                            <div class="f-fl">
+                                                下单时间：
+                                                <span class="time">
+                                                    {{ i.addtime|date:'Y-m-d H:i:s' }}
+                                                </span>
+                                                订单号：
+                                                <span class="orderNumber">
+                                                    
+                                                    {{ i.id }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="list-box b-l b-r b-b">
+
+                                        <td class="list b-r j-iamCart">
+                                            <div class="cart-wrap j-CartWrap">
+                                                <div class="shop j-shop j-amLight">
+                                    				{% for ii in i.orderinfo_set.all %}
+
+                                                    <div class="item b-t clearfix j-item j-iamMain">
+                                                        <a class="productDetail nameWidth col-xs-4 col-sm-4" href="#" target="_blank">
+                                                            <img src="{{ ii.gid.pic }}" class="f-fl">
+                                                        </a>
+                                                        <div class="describe f-fl col-xs-8 col-sm-8">
+                                                            <div class="vertic clearfix">
+                                                                <span class="clearfix">
+                                                                    <a class="productDetail nameWidth" href="#" target="_blank">
+                                                                        <i>
+                                                                            {{ ii.gid.title }}
+                                                                        </i>
+
+                                                                    </a>
+                                                                    <p>
+                                                                        ￥{{ ii.num }}×{{ ii.price }}
+                                                                    </p>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <input class="orderSn" value="51090244361541573081" type="hidden">
+                                                        <input class="isCart" value="1" type="hidden">
+                                                        <input class="orderSnSon" value="21090244361541575081" type="hidden">
+                                                    </div>
+                                                        {% endfor %}
+                                                    
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="b-r w125 center price b-t hidden-xs hidden-sm">
+                                            <div class="priceDiv">
+                                                ￥{{ i.totalprice }}
+                                            </div>
+                                        </td>
+                                        <td class="b-r w125 center state b-t hidden-xs hidden-sm">
+                                            <div class="stateDiv">
+                                            {% if i.stauts == 1 %}
+                                                <div>未付款<br></div>
+                                            {% elif i.stauts == 2 %}
+                                                <div>待发货<br></div>
+                                            {% elif i.stauts == 3 %}
+                                                <div>待收货<br></div>
+                                            {% elif i.stauts == 4 %}
+                                                <div>待评价<br></div>
+                                            {% elif i.stauts == 5 %}
+                                                <div>已取消<br></div>
+                                            {% endif%}
+                                            </div>
+                                        </td>
+                                        <td class="w125 center opreat b-t hidden-xs hidden-sm">
+                                            <ul>
+                                            {% if i.stauts == 1 %}
+                                                <li class="more">
+                                                    <a href="{% url 'order_info' i.id %}">查看详情</a>
+                                                </li>
+                                                <li class="buy" gid="{{ i.id }}" uname = "{{ i.address.uname }}" addr = "{{ i.address.uaddr }}" total="{{ i.totalprice }}">
+                                                <a  data-toggle="modal" data-target="#myModal" >去付款</a>
+                                                </li>
+                                                 <li class="del">
+                                                    <a href="javascript:void(0)">取消订单</a>
+                                                </li> 
+
+                                            {% else %}
+                                                <li class="more">
+                                                    <a href="{% url 'order_info' i.id %}">查看详情</a>
+                                                </li>
+                                            {% endif %}
+                                            </ul>
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+           <form class="form-horizontal">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" >
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        收钱
+                    </h4>
+                </div>
+            <div class="form-group">
+                <label class="col-sm-5 col-sm-offset-1 control-label">订单号:</label>
+                <div class="col-sm-1">
+                    <p  id="ppp" class="form-control-static ddid text-left"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-5 col-sm-offset-1 control-label">收货人:</label>
+                <div class="col-sm-1">
+                    <p class="form-control-static shouhuor text-left"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-5 col-sm-offset-1 control-label">收货地址:</label>
+                <div class="col-sm-3">
+                    <p class="form-control-static shouhuoa text-left"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-5 col-sm-offset-1 control-label">订单总价:</label>
+                <div class="col-sm-1">
+                    <p class="form-control-static ttotal text-left"></p>
+                </div>
+            </div>
+            <button type="button" class="btn btn-default btn-lg active">取消支付</button>
+            <button type="button" class="btn btn-primary btn-lg active">确认支付</button>
+        </form>
+        </div>
+    </div>
+</div>
+                                        </td>
+                                    </tr>
+                                   
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+// 选项卡特效
+$(document).ready(function(){
+    var m = window.location.search
+// $('a[href=m]').addClass('active')
+    $('.type-tab-btn a').each(function(){
+        var n = $(this).attr('href')
+        if (n==m) {
+            $(this).addClass('active')
+            $(this).siblings().removeClass('active')
+        }
+    })
+
+})
+    // 处理bootstrap表单异常　不用管
+    $('#myModal').modal({
+        backdrop: false,//点击空白处不关闭对话框
+        keyboard: false,//键盘关闭对话框
+        show:false//弹出对话框
+        });
+    // 弹出弹框付款
+$('.buy a').click(function(){
+    var thiss = $(this)
+    $('.ddid').html(thiss.parent().attr('gid'))
+    $('.shouhuor').html(thiss.parent().attr('uname'))
+    $('.shouhuoa').html(thiss.parent().attr('addr'))
+    $('.ttotal').html(thiss.parent().attr('total'))
+})
+// 绑定按钮提交事件
+    $('.btn-primary ').click(function(){
+        //获取订单号
+        var uid = $('#ppp').html()
+        // 发送ａｊａｘ
+        $.get('{% url "edit_order_status" %}',{uid:uid},function(data){
+            if(data == 0){
+                alert('付款成功')
+                location.href = "{% url 'myorder' %}"
+            }
+        })
+
+    })
+
+// 我的订单
+    $('.btn-default').click(function(){
+        location.href = "{% url 'myorder' %}"
+    })
+
+// 取消订单
+    $('.del a').click(function(){
+        var thiis = $(this)
+        var gid = thiis.parent().prev().attr('gid')
+        $.get("{% url 'order_del' %}",{gid:gid},function(data){
+            if(data == 0){
+                thiis.parents('tr').prev().remove()
+                thiis.parents('tr').remove()
+                alert('地址删除成功')
+            }
+
+        })
+    })
+</script>
+{% endblock %}

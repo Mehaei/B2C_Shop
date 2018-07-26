@@ -1,0 +1,90 @@
+{% extends 'home/public/base.html'%}
+
+
+{% block css %}
+
+<link rel="stylesheet" type="text/css" href="/static/home/public/css/cart.css">
+<link rel="stylesheet" type="text/css" href="/static/home/public/css/cart-app.css">
+
+{% endblock %}
+
+
+
+<!-- 面包屑导航 -->
+{% block mbx%}
+<div class="navbar-left">
+	<ol class="breadcrumb">
+		<li>购物车</li>
+		<li>确认订单</li>
+		<li class="active">在线支付</li>
+		<li>完成 </li>
+	</ol>
+</div>
+{% endblock %}
+
+{% block context %}
+
+<div class="mainbody cart">
+    <div style="margin-top:30px" class="container">
+    
+    <center>
+<!--         请为你的订单支付:<br>
+        <p>订单号:{{ order.id }}</p>
+        <p>收货人:{{ order.address.uname }}</p>
+        <p>收货地址:{{ order.address.uaddr }}</p>
+        <p>订单总价:{{ order.totalprice }}</p> -->
+		<form class="form-horizontal">
+
+		  	<div class="form-group">
+		    	<label class="col-sm-5 col-sm-offset-1 control-label">订单号:</label>
+		    	<div class="col-sm-1">
+		      		<p id="ppp" class="form-control-static text-left">{{ order.id }}</p>
+		    	</div>
+		  	</div>
+
+		  	<div class="form-group">
+		    	<label class="col-sm-5 col-sm-offset-1 control-label">收货人:</label>
+		    	<div class="col-sm-1">
+		      		<p class="form-control-static text-left">{{ order.address.uname }}</p>
+		    	</div>
+		  	</div>
+
+		  	<div class="form-group">
+		    	<label class="col-sm-5 col-sm-offset-1 control-label">收货地址:</label>
+		    	<div class="col-sm-3">
+		      		<p class="form-control-static text-left">{{ order.address.uaddr }}</p>
+		    	</div>
+		  	</div>
+
+		  	<div class="form-group">
+		    	<label class="col-sm-5 col-sm-offset-1 control-label">订单总价:</label>
+		    	<div class="col-sm-1">
+		      		<p class="form-control-static text-left">{{ order.totalprice }}</p>
+		    	</div>
+		  	</div>
+		  	<button type="button" class="btn btn-default btn-lg active">取消支付</button>
+		  	<button type="button" class="btn btn-primary btn-lg active">确认支付</button>
+		</form>
+    </center>    
+    </div>
+</div>
+<script type="text/javascript">
+// 绑定按钮提交事件
+	$('.btn-primary ').click(function(){
+		//获取订单号
+		var uid = $('#ppp').html()
+		// 发送ａｊａｘ
+		$.get('{% url "edit_order_status" %}',{uid:uid},function(data){
+			if(data == 0){
+				alert('付款成功')
+				location.href = "{% url 'myorder' %}"
+			}
+		})
+
+	})
+	$('.btn-default').click(function(){
+		location.href = "{% url 'myorder' %}"
+	})
+</script>
+
+{% endblock %}

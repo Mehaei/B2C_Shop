@@ -1,0 +1,237 @@
+{% extends 'home/public/base.html'%}
+
+{%　block css %}
+<link rel="stylesheet" type="text/css" href="/static/home/public/css/member.css">
+<link rel="stylesheet" type="text/css" href="/static/home/public/css/member-app.css">
+
+{% endblock %}
+
+
+
+{% block context %}
+<div class="main clearfix">
+    <!-- 左侧导航 -->
+    <div class="left-nav f-fl hidden-xs hidden-sm">
+        <div class="nav-main">
+            <a href="javascript:;" class="type-title">
+                <span class="glyphicon glyphicon-list-alt" aria-hidden="true">
+                </span>
+                订单中心
+            </a>
+            <a href="{% url 'myorder' %}" class="ml">
+                我的订单
+            </a>
+            <a href="#" class="ml ">
+                我的回购单
+            </a>
+            <a href="#" class="ml ">
+                我的意外保
+            </a>
+            <a href="javascript:;" class="type-title">
+                <span class="glyphicon glyphicon-user" aria-hidden="true">
+                </span>
+                个人中心
+            </a>
+            <a href="{% url 'address_manage' %}" class="ml ">
+                地址管理
+            </a>
+            <a href="#" class="ml ">
+                我的收藏
+            </a>
+            <a href="#" class="ml ">
+                消息提醒
+            </a>
+            <a href="#" class="ml ">
+                建议反馈
+            </a>
+        </div>
+    </div>
+    <!-- 左侧导航 E-->
+    <!-- 右侧内容展示 -->
+    <div class="right-content f-fr col-xs-10 col-sm-101">
+        <div class="index-main">
+            <div class="top clearfix">
+                <div class="information clearfix f-fl col-xs-12 col-sm-12">
+                    <div class="pic f-fl">
+                        <img src="{{ request.session.VipUser.pic }}" alt="">
+                    </div>
+                    <div class="name f-fl">
+                        <span>
+                            {{ request.session.VipUser.name }}
+                        </span>
+                        <span>
+                            欢迎您回来！
+                        </span>
+                    </div>
+                    <div class="info f-fl">
+                        <ul>
+                            <li>
+                                Flyme账号：
+                                <span>
+                                {{ request.session.VipUser.name }}
+                                </span>
+                            </li>
+                            <li>
+                                绑定手机号：
+                                <span>
+                                    {{ db.phone }}
+                                </span>
+                            </li>
+                            <li class="emailText">
+                                绑定邮箱：
+                                <span>
+                                    {{ db.email }}
+                                </span>
+                            </li>
+                        </ul>
+                        <a class="edit" data-toggle="modal" data-target="#myModal" href="#" >
+                            修改个人信息 &gt;
+                        </a>
+                    </div>
+                </div>
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action="{% url 'mycenter_edit' %}" method="post">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" >
+                                <span aria-hidden="true">
+                                    &times;
+                                </span>
+                            </button>
+                            <center>
+                            <h4 class="modal-title" id="myModalLabel">
+                                修改个人信息
+                            </h4>
+                            </center>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">
+                                    用户名：
+                                </label>
+                                <input type="text" name="name" value="{{ request.session.VipUser.name }}" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">
+                                    手机号:
+                                </label>
+                                <input type="text" name="phone" value="{{ db.phone }}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">
+                                    邮箱：
+                                </label>
+                                <input type="text" name="email" value="{{ db.email }}" class="form-control" >
+                            </div>
+                            <input type="hidden" name="tid" value="{{ request.session.VipUser.uid }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                关闭
+                            </button>
+                            <button class="btn btn-primary">
+                                确认修改
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+                <div class="backCouponNum f-fl col-xs-12 col-sm-12">
+                    <p>
+                        回购券：
+                        <span>
+                            0
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="bottom clearfix">
+                <div class="orderState f-fl col-xs-12 col-sm-12">
+                    <div class="title clearfix">
+                        <span class="f-fl">
+                            订单状态
+                        </span>
+                        <a class="detail f-fr" href="#">
+                            查看全部订单 &gt;
+                        </a>
+                    </div>
+                    <div class="content">
+                        <div class="waitPay clearfix">
+                            <span class="f-fl cercl">
+                                <span class="glyphicon glyphicon-folder-open iconfont" aria-hidden="true">
+                                </span>
+                            </span>
+                            <div class="text f-fl">
+                                <p>
+                                    待付款订单：
+                                    <span class="num">
+                                        {{ norder }}
+                                    </span>
+                                </p>
+                                <a class="detail" href="{% url 'myorder' %}?status=sone">
+                                    查看全部待付款订单 &gt;
+                                </a>
+                            </div>
+                        </div>
+                        <div class="waitDeliver clearfix">
+                            <span class="f-fl cercl">
+                                <span class="glyphicon glyphicon-folder-close iconfont" aria-hidden="true">
+                                </span>
+                            </span>
+                            <div class="text f-fl">
+                                <p>
+                                    待发货订单：
+                                    <span class="num">
+                                        {{ uorder }}
+                                    </span>
+                                </p>
+                                <a class="detail" href="{% url 'myorder' %}?status=stwo">
+                                    查看全部待发货订单 &gt;
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="message f-fl col-xs-12 col-sm-12">
+                    <div class="title clearfix">
+                        <span class="f-fl">
+                            活动消息
+                        </span>
+                        <a class="f-fr detail" href="#">
+                            查看全部消息 &gt;
+                        </a>
+                    </div>
+                    <div id="tableList" class="list J_no_data">
+                        <span>
+                            您暂无此类消息提醒！
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+        // 处理bootstrap表单异常　不用管
+    $('#myModal').modal({
+        backdrop: false,//点击空白处不关闭对话框
+        keyboard: false,//键盘关闭对话框
+        show:false//弹出对话框
+        });
+
+  //回顶部
+   backTop();
+  //顶部导航鼠标经过出现内容
+   topNav();
+  //登录图片鼠标经过
+   topLogin();
+   //
+   leftNav();
+
+
+
+</script>
+{% endblock %}
